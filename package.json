@@ -1,0 +1,16 @@
+{
+  "name": "elasticsearch-app",
+  "version": "1.0.0",
+  "main": "elasticsearch-app.js",
+  "license": "MIT",
+  "scripts": {
+    "watch": "yarn nodemon elasticsearch-app.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "elasticsearch": "^16.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
