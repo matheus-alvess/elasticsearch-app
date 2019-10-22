@@ -1,19 +1,19 @@
 const elasticsearch = require('elasticsearch');
 
 const Elasticsearch = {
-  connection: null,
-  connect: async () => {
+  client: null,
+  async connect() {
     try {
       await new Promise(async (resolve, reject) => {
-        this.connection = new elasticsearch.Client({
+        this.client = new elasticsearch.Client({
           host: `${process.env.ELASTIC_HOST}:${process.env.ELASTIC_PORT}`
         });
-
-        if (await this.connection.ping({ requestTimeout: 1000 }) === true) {
+        if (await this.client.ping({ requestTimeout: 1000 }) === true) {
           console.log(`ELASTIC_SEARCH CONECTED ON: ${process.env.ELASTIC_HOST}:${process.env.ELASTIC_PORT}`);
-          resolve(this.connection);
+          resolve(this.client);
+        } else {
+          reject(`ELASTICSEARCH ERROR ON CONNECTED: ${process.env.ELASTIC_HOST}:${process.env.ELASTIC_PORT}`);
         }
-        reject(false);
       });
     } catch (e) {
       console.log(e);
