@@ -6,6 +6,6 @@ const elasticsearchUtil = require('./lib/elasticsearch-util');
   await elasticsearchUtil.createIndexes();
   await elasticsearchUtil.createMappingsToIndex();
   //await elasticsearchUtil.insertDoc();
-  await elasticsearchUtil.bulkInsert();
-  //await elasticsearchUtil.searchDoc();
+  //await elasticsearchUtil.bulkInsert();
+  await elasticsearchUtil.searchDoc();
 })();

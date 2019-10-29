@@ -53,30 +53,37 @@ const ElasticSearchUtil = {
                     }
                 }
             });
-            console.log(response);
+            console.log();
         } catch (e) {
             console.log(e);
         }
     },
     async bulkInsert() {
         try {
-            let body = [
+            let action = { index: { _index: 'calls', _type: 'calls' } };
+            let body = [];
+            let items = [
                 {
-                    id:1,
-                    mailingId:123
+                    id: 1,
+                    mailingId:24,
+                    createAt: new Date(),
+                    campaignId:24,
                 },
                 {
-                    id:2,
-                    mailingId:1234
+                    id: 2,
+                    mailingId:25,
+                    createAt: new Date(),
+                    campaignId:25
                 }
             ];
 
-            let response = await elasticsearch.client.bulk({
-                index: 'calls',
-                type: 'calls',
-                body: body
+            for (let item of items) {
+                body.push(action,item)
+            }
+
+            await elasticsearch.client.bulk({ 
+                body 
             });
-            console.log(response);
         } catch (e) {
             console.log(e);
         }
@@ -86,7 +93,7 @@ const ElasticSearchUtil = {
             let query = {
                 query: {
                     match: {
-                        campaignId: 12345
+                        mailingId: 24
                     }
                 }
             };
