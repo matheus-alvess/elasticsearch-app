@@ -1,17 +1,20 @@
 const elasticsearch = require('../elasticsearch/connection');
 const Mappings = require('../elasticsearch/mappings');
+const Indexes = require('../elasticsearch/indexes');
 
 const ElasticSearchUtil = {
-    async createIndex() {
-        try {
-            if (!await this.indexExists(process.env.ELASTIC_INDEX_NAME)) {
-                let { index } = await elasticsearch.client.indices.create({
-                    index: process.env.ELASTIC_INDEX_NAME
-                });
-                console.log(`index created: ${index}`);
+    async createIndexes() {
+        for (let indexName of Indexes) {
+            try {
+                if (!await this.indexExists(indexName)) {
+                    let { index } = await elasticsearch.client.indices.create({
+                        index: indexName
+                    });
+                    console.log(`index created: ${index}`);
+                }
+            } catch (e) {
+                console.log(e);
             }
-        } catch (e) {
-            console.log(e);
         }
     },
     indexExists(indexName) {
@@ -20,14 +23,13 @@ const ElasticSearchUtil = {
         });
     },
     async createMappingsToIndex() {
-        for (let mappingType in Mappings) {
+        for (let indexName of Indexes) {
             try {
-                let resp = await elasticsearch.client.indices.putMapping({
-                    index: process.env.ELASTIC_INDEX_NAME,
-                    type: mappingType,
-                    body: Mappings[mappingType]
+                await elasticsearch.client.indices.putMapping({
+                    index: indexName,
+                    type: indexName,
+                    body: Mappings[indexName]
                 });
-                console.log(resp)
             } catch (e) {
                 console.log(e);
             }
@@ -36,7 +38,7 @@ const ElasticSearchUtil = {
     async insertDoc() {
         try {
             let response = await elasticsearch.client.index({
-                index: process.env.ELASTIC_INDEX_NAME,
+                index: 'calls',
                 type: 'calls',
                 body: {
                     id: '123',
@@ -56,6 +58,29 @@ const ElasticSearchUtil = {
             console.log(e);
         }
     },
+    async bulkInsert() {
+        try {
+            let body = [
+                {
+                    id:1,
+                    mailingId:123
+                },
+                {
+                    id:2,
+                    mailingId:1234
+                }
+            ];
+
+            let response = await elasticsearch.client.bulk({
+                index: 'calls',
+                type: 'calls',
+                body: body
+            });
+            console.log(response);
+        } catch (e) {
+            console.log(e);
+        }
+    },
     async searchDoc() {
         try {
             let query = {
@@ -67,7 +92,7 @@ const ElasticSearchUtil = {
             };
 
             let docs = await elasticsearch.client.search({
-                index: process.env.ELASTIC_INDEX_NAME,
+                index: 'calls',
                 type: 'calls',
                 body: query
             });
