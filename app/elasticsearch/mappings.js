@@ -5,13 +5,13 @@ const Mappings = {
         type: 'text'
       },
       mailingId: {
-        type: 'double'
+        type: 'long'
       },
       createdAt: {
         type: 'date'
       },
       campaignId: {
-        type: 'double'
+        type: 'long'
       },
       body: {
         type: 'text'
@@ -24,13 +24,13 @@ const Mappings = {
         type: 'text'
       },
       mailingId: {
-        type: 'double'
+        type: 'long'
       },
       createdAt: {
         type: 'date'
       },
       campaignId: {
-        type: 'double'
+        type: 'long'
       },
       body: {
         type: 'text'
