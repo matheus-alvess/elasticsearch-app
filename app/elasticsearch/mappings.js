@@ -13,8 +13,14 @@ const Mappings = {
       campaignId: {
         type: 'long'
       },
-      body: {
-        type: 'text'
+      api: {
+        type: 'boolean'
+      },
+      asteriskOutCdr: {
+        type: 'object'
+      },
+      uraEvents: {
+        type: 'nested'
       }
     }
   },
@@ -32,8 +38,14 @@ const Mappings = {
       campaignId: {
         type: 'long'
       },
-      body: {
-        type: 'text'
+      api: {
+        type: 'boolean'
+      },
+      asteriskOutCdr: {
+        type: 'object'
+      },
+      uraEvents: {
+        type: 'nested'
       }
     }
   }
